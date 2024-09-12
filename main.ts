@@ -20,11 +20,12 @@ function MoveRobotRight () {
     maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
 }
 radio.onReceivedString(function (receivedString) {
-    let RadioString: string[] = []
-    for (let value2 of RadioString) {
+    for (let value2 of receivedString.split(",")) {
         showDirection(value2)
     }
     basic.showIcon(IconNames.Yes)
+    basic.pause(1000)
+    basic.clearScreen()
 })
 function showDirection (Direction2: string) {
     if (Direction2 == "Left") {
@@ -58,12 +59,15 @@ function showDirection (Direction2: string) {
         basic.showIcon(IconNames.No)
     }
     music.ringTone(988)
+    music.rest(music.beat(BeatFraction.Whole))
     basic.pause(1000)
     basic.clearScreen()
     basic.pause(200)
 }
 function MoveRobotForward () {
     if (maqueenPlusV2.readLineSensorState(maqueenPlusV2.MyEnumLineSensor.SensorM) == 1) {
+        maqueenPlusV2.controlMotor(maqueenPlusV2.MyEnumMotor.AllMotor, maqueenPlusV2.MyEnumDir.Forward, 50)
+        basic.pause(200)
         while (maqueenPlusV2.readLineSensorState(maqueenPlusV2.MyEnumLineSensor.SensorM) == 0 && maqueenPlusV2.readLineSensorState(maqueenPlusV2.MyEnumLineSensor.SensorM) == 0) {
             maqueenPlusV2.controlMotor(maqueenPlusV2.MyEnumMotor.AllMotor, maqueenPlusV2.MyEnumDir.Forward, 50)
         }
@@ -71,6 +75,7 @@ function MoveRobotForward () {
     }
 }
 radio.setGroup(33)
+maqueenPlusV2.I2CInit()
 basic.forever(function () {
 	
 })
