@@ -50,6 +50,7 @@ radio.onReceivedString(function (receivedString) {
     basic.clearScreen()
 })
 input.onButtonPressed(Button.B, function () {
+    maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
     ShowStatus()
     maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
 })
