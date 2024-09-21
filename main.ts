@@ -1,5 +1,6 @@
 radio.onReceivedNumber(function (receivedNumber) {
     if (receivedNumber == 0) {
+        StopAll += 1
         maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
     }
 })
@@ -42,17 +43,22 @@ function MoveRobotRight () {
     }
 }
 radio.onReceivedString(function (receivedString) {
+    StopAll += 0
     for (let value2 of receivedString.split(",")) {
-        showDirection(value2)
+        if (StopAll == 0) {
+            showDirection(value2)
+        }
     }
-    basic.showIcon(IconNames.Yes)
-    basic.pause(1000)
-    basic.clearScreen()
+    if (StopAll == 0) {
+        basic.showIcon(IconNames.Happy)
+    } else {
+        basic.showIcon(IconNames.Sad)
+    }
 })
 input.onButtonPressed(Button.B, function () {
+    StopAll += 1
     maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
     ShowStatus()
-    maqueenPlusV2.controlMotorStop(maqueenPlusV2.MyEnumMotor.AllMotor)
 })
 function showDirection (Direction2: string) {
     if (Direction2 == "L") {
@@ -103,8 +109,7 @@ function MoveRobotForward () {
             maqueenPlusV2.controlMotor(maqueenPlusV2.MyEnumMotor.AllMotor, maqueenPlusV2.MyEnumDir.Forward, SpeedLow)
         }
     } else {
-        SpeedLow = 0
-        basic.showIcon(IconNames.Sad)
+        StopAll += 1
     }
 }
 function MaintainLine () {
@@ -129,6 +134,7 @@ function MaintainLine () {
     }
 }
 let IsOn = 0
+let StopAll = 0
 let SpeedFaster = 0
 let SpeedLow = 0
 let SpeedHigh = 0
@@ -142,3 +148,4 @@ Speed = 50
 SpeedHigh = 60
 SpeedLow = 40
 SpeedFaster = 80
+StopAll = 0
